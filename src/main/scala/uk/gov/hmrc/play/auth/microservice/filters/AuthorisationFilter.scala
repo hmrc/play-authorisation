@@ -96,7 +96,7 @@ trait AuthorisationFilter extends Filter {
     pathString match {
       case authConfig.pattern(urlAccount, id) =>
         val reconciledAccount = authConfig.account.getOrElse(urlAccount)
-        Some(ResourceToAuthorise(verb, Regime(authConfig.servicePrefix + reconciledAccount), AccountId(id)))
+        Some(RegimeAndIdResourceToAuthorise(verb, Regime(authConfig.servicePrefix + reconciledAccount), AccountId(id)))
       case _ => None
     }
   }
@@ -106,7 +106,7 @@ trait AuthorisationFilter extends Filter {
     pathString match {
       case authConfig.anonymousLoginPattern(urlAccount) =>
         val reconciledAccount = authConfig.account.getOrElse(urlAccount)
-        Some(ResourceToAuthorise(verb, Regime(authConfig.servicePrefix + reconciledAccount)))
+        Some(RegimeResourceToAuthorise(verb, Regime(authConfig.servicePrefix + reconciledAccount)))
       case _ => None
     }
   }
