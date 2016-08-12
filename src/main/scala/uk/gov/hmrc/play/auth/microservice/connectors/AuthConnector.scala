@@ -54,7 +54,7 @@ case class RegimeResourceToAuthorise(method: HttpVerb, regime: Regime) extends R
 
 case class PermissionToAuthorise(permission: String) extends ResourceToAuthorise {
   def buildUrl(authBaseUrl: String, authRequestParameters: AuthRequestParameters): String = {
-    s"$authBaseUrl/authorise/permission/$permission}"
+    s"$authBaseUrl/authorise/permission/$permission"
   }
 }
 

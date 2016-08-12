@@ -89,6 +89,7 @@ trait AuthorisationFilter extends Filter {
     authConfig.mode match {
       case "identity" => extractIdentityResource(pathString, verb, authConfig)
       case "passcode" => extractPasscodeResource(pathString, verb, authConfig)
+      case "permission" => extractPermissionResource(pathString, verb, authConfig)
     }
 
   private def extractIdentityResource(pathString: String, verb: HttpVerb, authConfig: AuthConfig): Option[ResourceToAuthorise] = {
@@ -109,5 +110,9 @@ trait AuthorisationFilter extends Filter {
         Some(RegimeResourceToAuthorise(verb, Regime(authConfig.servicePrefix + reconciledAccount)))
       case _ => None
     }
+  }
+
+  private def extractPermissionResource(pathString: String, verb: HttpVerb, authConfig: AuthConfig): Option[ResourceToAuthorise] = {
+    authConfig.permission.map(PermissionToAuthorise)
   }
 }

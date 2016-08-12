@@ -90,6 +90,8 @@ class AuthorisationFilterSpec extends WordSpecLike with MatchersResults with Sca
 
     "properly override the account name from controller config and pass the correct account, accountId and delegate authorisation data to the auth connector" in new SetUp {
 
+      val authFilterWithAccountName = new TestAuthorisationFilter(Map("DelegateAuthController.authParams.account" -> "agent"))
+
       val request = FakeRequest("GET", "/anaccount/anid/data", FakeHeaders(), "", tags = Map(ROUTE_VERB -> "GET", ROUTE_CONTROLLER -> "DelegateAuthController"))
 
       val result = authFilterWithAccountName.apply((h: RequestHeader) => Future.successful(new Results.Status(200)))(request).futureValue
@@ -104,6 +106,19 @@ class AuthorisationFilterSpec extends WordSpecLike with MatchersResults with Sca
       val result = authFilter.apply((h: RequestHeader) => Future.successful(new Results.Status(200)))(request).futureValue
 
       testAuthConnector.capture shouldBe Some("authBaseUrl/authorise/read/anaccount/anid?confidenceLevel=100&agentRoleRequired=admin&delegatedAuthRule=lp-paye")
+    }
+
+    "use permissions based authorisation if so configured" in new SetUp {
+
+      val authFilterWithPermissions =
+        new TestAuthorisationFilter(Map("DelegateAuthController.authParams.mode" -> "permission",
+                                        "DelegateAuthController.authParams.permission" -> "foo"))
+
+      val request = FakeRequest("GET", "/anaccount/anid/data", FakeHeaders(), "", tags = Map(ROUTE_VERB -> "GET", ROUTE_CONTROLLER -> "DelegateAuthController"))
+
+      val result = authFilterWithPermissions.apply((h: RequestHeader) => Future.successful(new Results.Status(200)))(request).futureValue
+
+      testAuthConnector.capture shouldBe Some("authBaseUrl/authorise/permission/foo")
     }
   }
 
@@ -200,6 +215,5 @@ class AuthorisationFilterSpec extends WordSpecLike with MatchersResults with Sca
 
     val authFilter = new TestAuthorisationFilter()
 
-    val authFilterWithAccountName = new TestAuthorisationFilter(Map("DelegateAuthController.authParams.account" -> "agent"))
   }
 }
