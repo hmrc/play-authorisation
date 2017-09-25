@@ -20,7 +20,7 @@ import play.api.http.HttpEntity
 import play.api.libs.iteratee.Enumerator
 import play.api.libs.json._
 import play.api.mvc.{ResponseHeader, Result}
-import uk.gov.hmrc.http.{CoreGet, HeaderCarrier, HttpResponse}
+import uk.gov.hmrc.http.{CoreGet, HeaderCarrier, HttpReads, HttpResponse}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
@@ -120,6 +120,10 @@ case class AuthRequestParameters(confidenceLevel: ConfidenceLevel, agentRoleRequ
 
 trait AuthConnector extends CoreGet {
   def authBaseUrl: String
+
+  implicit val httpReads: HttpReads[HttpResponse] = new HttpReads[HttpResponse] {
+    override def read(method: String, url: String, response: HttpResponse) = response
+  }
 
   def authorise(resource: ResourceToAuthorise, authRequestParameters: AuthRequestParameters)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Result] = {
     val url = resource.buildUrl(authBaseUrl, authRequestParameters)
