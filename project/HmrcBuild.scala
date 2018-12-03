@@ -7,7 +7,6 @@ import uk.gov.hmrc.versioning.SbtGitVersioning
 object HmrcBuild extends Build {
 
   import BuildDependencies._
-  import uk.gov.hmrc.DefaultBuildSettings._
 
   val appName = "play-authorisation"
 
@@ -18,7 +17,7 @@ object HmrcBuild extends Build {
     .enablePlugins(SbtAutoBuildPlugin, SbtGitVersioning)
     .settings(
       name := appName,
-      scalaVersion := "2.11.7",
+      scalaVersion := "2.11.12",
       libraryDependencies ++= Seq(
         Compile.playFramework,
         Compile.httpVerbs,
@@ -34,12 +33,11 @@ object HmrcBuild extends Build {
 
 private object BuildDependencies {
 
-  import play.sbt.PlayImport._
   import play.core.PlayVersion
 
   object Compile {
     val playFramework = "com.typesafe.play" %% "play" % PlayVersion.current % "provided"
-    val httpVerbs = "uk.gov.hmrc" %% "http-verbs-play-25" % "0.6.0"
+    val httpVerbs = "uk.gov.hmrc" %% "http-verbs" % "8.10.0-play-25"
     val ficus = "net.ceedubs" %% "ficus" % "1.1.1"
   }
 
