@@ -2,6 +2,8 @@ play-authorisation
 ====
 [![Build Status](https://travis-ci.org/hmrc/play-authorisation.svg?branch=master)](https://travis-ci.org/hmrc/play-authorisation) [ ![Download](https://api.bintray.com/packages/hmrc/releases/play-authorisation/images/download.svg) ](https://bintray.com/hmrc/releases/play-authorisation/_latestVersion)
 
+This library is now deprecated. Please use [auth-client](https://github.com/hmrc/auth-client) instead. 
+
 A library used for communicating with the auth service to authorise requests
 from microservices
 
