@@ -1,3 +1,4 @@
+[DEPRECATED]
 play-authorisation
 ====
 [![Build Status](https://travis-ci.org/hmrc/play-authorisation.svg?branch=master)](https://travis-ci.org/hmrc/play-authorisation) [ ![Download](https://api.bintray.com/packages/hmrc/releases/play-authorisation/images/download.svg) ](https://bintray.com/hmrc/releases/play-authorisation/_latestVersion)
